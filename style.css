@@ -1,0 +1,306 @@
+/* 珠宝展示馆样式：顶部 :root 变量可调整主题颜色 */
+
+:root {
+  --bg:#2b0b0e;
+  --panel:#1e0709
+  --gold:#f0c674;
+  --line:#5c2024;
+  --ink:#ccba78;
+  --muted:#c4a79e}
+* {
+  box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:15px Arial,sans-serif}
+button,input,select,textarea {
+  font:inherit}
+button {
+  cursor:pointer}
+.wrap {
+  max-width:1200px;
+  margin:auto;
+  padding:0 22px}
+header {
+  position:sticky;
+  top:0;
+  background:#100e0bf5;
+  border-bottom:1px solid var(--line);
+  z-index:5}
+.nav {
+  min-height:76px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap}
+.brand {
+  font:28px Georgia,serif;
+  letter-spacing:3px;
+  color:var(--gold)}
+.brand small {
+  display:block;
+  font:10px Arial;
+  letter-spacing:4px;
+  margin-top:5px;
+  color:var(--muted)}
+.navlinks {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap}
+.navlinks a {
+  color:var(--ink);
+  text-decoration:none;
+  padding:8px}
+.btn {
+  border:0;
+  border-radius:3px;
+  background:linear-gradient(125deg,#efcf88,#ac813d);
+  color:#18120b;
+  padding:11px 16px;
+  font-weight:bold}
+.btn.alt {
+  background:transparent;
+  border:1px solid #957441;
+  color:var(--gold)}
+.btn:disabled {
+  opacity:.45;
+  cursor:not-allowed}
+.hero {
+  background:radial-gradient(ellipse at 75% 50%,#6b4a21,#1b160f 45%,#0e0c0a 80%);
+  padding:85px 0;
+  border-bottom:1px solid #44321b}
+.eyebrow {
+  color:var(--gold);
+  font-size:12px;
+  letter-spacing:3px}
+.hero h1 {
+  font:clamp(38px,6vw,70px) Georgia,serif;
+  font-weight:normal;
+  max-width:720px;
+  margin:15px 0}
+.hero p {
+  max-width:580px;
+  line-height:1.8;
+  color:var(--muted)}
+.section {
+  padding:55px 0}
+.center {
+  text-align:center}
+.center h2 {
+  font:36px Georgia,serif;
+  font-weight:normal}
+.muted {
+  color:var(--muted);
+  line-height:1.6}
+.filters {
+  display:flex;
+  gap:12px;
+  margin:28px 0;
+  flex-wrap:wrap}
+.filters input,.filters select,.field input,.field select,.field textarea {
+  background:#14110e;
+  color:white;
+  border:1px solid #675133;
+  border-radius:3px;
+  padding:12px}
+.filters input {
+  flex:1;
+  min-width:180px}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:20px}
+.item {
+  background:var(--panel);
+  border:1px solid #3c3021;
+  overflow:hidden}
+.photo {
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle,#544020,#17120e);
+  position:relative}
+.photo img {
+  width:100%;
+  height:100%;
+  object-fit:cover}
+.placeholder {
+  font-size:75px}
+.status {
+  position:absolute;
+  top:10px;
+  left:10px;
+  padding:7px 9px;
+  background:#14100ddf;
+  color:var(--gold);
+  font-size:11px}
+.info {
+  padding:17px}
+.info small {
+  color:var(--gold)}
+.info h3 {
+  font:21px Georgia,serif;
+  font-weight:normal;
+  margin:10px 0}
+.info p {
+  font-size:13px;
+  color:var(--muted);
+  min-height:35px}
+.actions {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap}
+.actions .btn {
+  flex:1;
+  font-size:12px;
+  padding:11px 7px}
+.bottom {
+  background:#19140f;
+  padding:45px 20px;
+  text-align:center;
+  border-top:1px solid var(--line)}
+footer {
+  text-align:center;
+  padding:25px;
+  color:#968369;
+  font-size:12px}
+.modal {
+  position:fixed;
+  inset:0;
+  z-index:20;
+  background:#000d;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:14px}
+.modal.open {
+  display:flex}
+.dialog {
+  background:#1c1711;
+  border:1px solid #967344;
+  width:min(690px,100%);
+  max-height:94vh;
+  overflow:auto;
+  padding:25px;
+  position:relative}
+.dialog h2 {
+  font:29px Georgia,serif;
+  color:var(--gold);
+  font-weight:normal}
+.close {
+  position:absolute;
+  right:15px;
+  top:9px;
+  color:white;
+  border:0;
+  background:none;
+  font-size:29px}
+.field {
+  display:grid;
+  gap:7px;
+  margin:13px 0}
+.field label {
+  color:#dfd0b6;
+  font-size:13px}
+.field input,.field select,.field textarea {
+  width:100%}
+.field textarea {
+  min-height:85px}
+.hidden {
+  display:none!important}
+.detail-photo {
+  width:100%;
+  max-height:330px;
+  object-fit:contain;
+  background:#110e0b}
+.thumbs {
+  display:flex;
+  gap:8px;
+  margin:10px 0;
+  flex-wrap:wrap}
+.thumbs img {
+  height:62px;
+  width:62px;
+  object-fit:cover;
+  cursor:pointer;
+  border:1px solid var(--gold)}
+.adminrow,.cartrow {
+  border-bottom:1px solid #53412b;
+  padding:13px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap}
+.adminrow .btn,.cartrow .btn {
+  padding:7px 10px}
+.notice {
+  background:#2b2115;
+  border-left:3px solid var(--gold);
+  padding:12px;
+  color:#e4cda2;
+  line-height:1.6}
+.tabs {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin:14px 0}
+.small {
+  font-size:12px}
+.count {
+  color:#f1d394}
+.order {
+  border:1px solid #5b4529;
+  padding:14px;
+  margin:12px 0}
+.empty {
+  padding:28px;
+  text-align:center;
+  color:var(--muted)}
+@media(max-width:900px) {
+  .grid {
+  grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:520px) {
+  .grid {
+  grid-template-columns:1fr}
+.brand {
+  font-size:20px}
+.nav {
+  padding-top:12px;
+  padding-bottom:12px}
+.hero {
+  padding:55px 0}
+.navlinks {
+  gap:4px}
+.navlinks .btn {
+  padding:9px;
+  font-size:12px}
+}
+
+
+
+.wa-btn {
+  display:inline-block;
+  text-decoration:none;
+  background:#25d366;
+  color:#092916;
+  border:0;
+  border-radius:4px;
+  padding:12px 18px;
+  font-weight:bold;
+  cursor:pointer}
+.wa-float {
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:8;
+  box-shadow:0 6px 20px #0008}
+.actions .wa-btn {
+  flex:1;
+  text-align:center;
+  font-size:12px;
+  padding:11px 7px}

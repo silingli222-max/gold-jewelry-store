@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   金玉珠宝 | 黄金珠宝展示馆
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <div class="wrap nav">
+    <div class="brand" id="brand">
+     金玉珠宝
+     <small>
+      GOLD JEWELRY
+     </small>
+    </div>
+    <nav class="navlinks">
+     <a href="#sanpham">
+      珠宝系列
+     </a>
+     <a href="#lienhe">
+      WhatsApp 联系
+     </a>
+     <button class="btn alt" onclick="openAdmin()">
+      管理后台
+     </button>
+    </nav>
+   </div>
+  </header>
+  <section class="hero">
+   <div class="wrap">
+    <div class="eyebrow">
+     臻品黄金珠宝
+    </div>
+    <h1>
+     永恒之美
+    </h1>
+    <p>
+     探索精美黄金珠宝系列，欣赏每一款设计，并通过 WhatsApp 联系店铺咨询。
+    </p>
+    <a class="btn" href="#sanpham" style="display:inline-block;text-decoration:none;margin-top:14px">
+     探索珠宝系列
+    </a>
+   </div>
+  </section>
+  <main class="wrap section" id="sanpham">
+   <div class="center">
+    <div class="eyebrow">
+     精选系列
+    </div>
+    <h2>
+     精选珠宝
+    </h2>
+    <p class="muted">
+     仅供款式展示 &middot; 不公开价格
+    </p>
+   </div>
+   <div class="filters">
+    <input id="search" oninput="render()" placeholder="搜索款式名称或编号..."/>
+    <select id="filter" onchange="render()">
+     <option value="">
+      全部分类
+     </option>
+     <option>
+      黄金戒指
+     </option>
+     <option>
+      黄金项链
+     </option>
+     <option>
+      黄金手链
+     </option>
+     <option>
+      黄金耳环
+     </option>
+     <option>
+      黄金颈圈
+     </option>
+     <option>
+      珠宝套装
+     </option>
+     <option>
+      其他
+     </option>
+    </select>
+   </div>
+   <div class="grid" id="products">
+   </div>
+  </main>
+  <section class="bottom" id="lienhe">
+   <div class="eyebrow">
+    联系展厅
+   </div>
+   <h2 style="font:30px Georgia,serif">
+    通过 WhatsApp 咨询珠宝款式
+   </h2>
+   <p class="muted">
+    欣赏喜欢的款式，直接联系店铺咨询，无需在线下单。
+   </p>
+   <a class="wa-btn hidden" id="waMain" rel="noopener noreferrer" target="_blank">
+    ✆ WhatsApp 联系
+   </a>
+   <p class="muted small" id="waHint">
+    店主尚未设置 WhatsApp 号码。
+   </p>
+  </section>
+  <a class="wa-btn wa-float hidden" id="waFloat" rel="noopener noreferrer" target="_blank">
+   ✆ WhatsApp
+  </a>
+  <footer>
+   &copy;
+   <span id="year">
+   </span>
+   <span id="footerBrand">
+    金玉珠宝
+   </span>
+   &middot; 黄金珠宝展示馆
+  </footer>
+  <div class="modal" id="detailModal">
+   <div class="dialog">
+    <button class="close" onclick="closeModal('detailModal')">
+     &times;
+    </button>
+    <img alt="珠宝图片" class="detail-photo hidden" id="detailPhoto"/>
+    <div class="thumbs" id="thumbs">
+    </div>
+    <h2 id="detailName">
+    </h2>
+    <p class="count" id="detailMeta">
+    </p>
+    <p class="muted" id="detailDesc">
+    </p>
+    <button class="wa-btn hidden" id="detailWa" onclick="contactProduct(currentProductId)">
+     ✆ 通过 WhatsApp 咨询此款
+    </button>
+   </div>
+  </div>
+  <div class="modal" id="adminModal">
+   <div class="dialog">
+    <button class="close" onclick="closeModal('adminModal')">
+     &times;
+    </button>
+    <h2>
+     展厅管理
+    </h2>
+    <div id="adminLogin">
+     <p class="notice">
+      本地演示管理后台，默认密码为 123456。正式上线前必须使用安全的服务端身份验证。
+     </p>
+     <div class="field">
+      <label>
+       管理员密码
+      </label>
+      <input id="adminPass" type="password"/>
+     </div>
+     <button class="btn" onclick="adminLogin()">
+      登录
+     </button>
+    </div>
+    <div class="hidden" id="adminPanel">
+     <h3>
+      展厅信息
+     </h3>
+     <div class="field">
+      <label>
+       店铺名称
+      </label>
+      <input id="shopName"/>
+     </div>
+     <div class="field">
+      <label>
+       店铺 WhatsApp 号码（含国家区号，不带 +）
+      </label>
+      <input id="shopWhatsApp" placeholder="例如：60123456789" type="tel"/>
+     </div>
+     <button class="btn alt" onclick="saveSettings()">
+      保存店铺信息
+     </button>
+     <hr style="border-color:#55412a;margin:24px 0"/>
+     <h3 id="formTitle">
+      发布珠宝款式
+     </h3>
+     <input id="editId" type="hidden"/>
+     <div class="field">
+      <label>
+       款式名称 *
+      </label>
+      <input id="pName"/>
+     </div>
+     <div class="field">
+      <label>
+       款式编号 *
+      </label>
+      <input id="pCode"/>
+     </div>
+     <div class="field">
+      <label>
+       分类
+      </label>
+      <select id="pCategory">
+       <option>
+        黄金戒指
+       </option>
+       <option>
+        黄金项链
+       </option>
+       <option>
+        黄金手链
+       </option>
+       <option>
+        黄金耳环
+       </option>
+       <option>
+        黄金颈圈
+       </option>
+       <option>
+        珠宝套装
+       </option>
+       <option>
+        其他
+       </option>
+      </select>
+     </div>
+     <div class="field">
+      <label>
+       黄金材质
+      </label>
+      <input id="pGold" placeholder="例如：18K 金"/>
+     </div>
+     <div class="field">
+      <label>
+       款式介绍
+      </label>
+      <textarea id="pDesc"></textarea>
+     </div>
+     <div class="field">
+      <label>
+       从设备上传图片（最多 5 张）
+      </label>
+      <input accept="image/*" id="pImages" multiple="" type="file"/>
+      <span class="muted small">
+       无需创建图片文件夹或填写图片路径。
+      </span>
+     </div>
+     <div class="field">
+      <label>
+       款式状态
+      </label>
+      <select id="pStatus">
+       <option>
+        有现货
+       </option>
+       <option>
+        请咨询库存
+       </option>
+       <option>
+        暂时缺货
+       </option>
+      </select>
+     </div>
+     <div class="field">
+      <label>
+       <input checked="" id="pVisible" style="width:auto" type="checkbox"/>
+       在展厅展示此款
+      </label>
+     </div>
+     <button class="btn" onclick="saveProduct()">
+      保存款式
+     </button>
+     <button class="btn alt" onclick="resetForm()">
+      清空表单
+     </button>
+     <h3>
+      款式管理列表
+     </h3>
+     <div id="adminList">
+     </div>
+     <p class="notice">
+      图片和款式仅保存在当前浏览器。若要让所有访客看到相同内容，需要服务器和在线数据库。默认密码仅供演示。
+     </p>
+    </div>
+   </div>
+  </div>
+  <script src="config.js">
+  </script>
+  <script src="app.js">
+  </script>
+ </body>
+</html>
