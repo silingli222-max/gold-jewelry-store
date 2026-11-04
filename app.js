@@ -30,49 +30,28 @@ function deleteProduct(id){if(!confirm('确定删除此款式吗？'))return;let
 function imageData(file){return new Promise((resolve,reject)=>{let img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let c=document.createElement('canvas'),s=Math.min(1,900/Math.max(img.width,img.height));c.width=Math.max(1,Math.round(img.width*s));c.height=Math.max(1,Math.round(img.height*s));c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);resolve(c.toDataURL('image/jpeg',.7))};img.onerror=()=>{URL.revokeObjectURL(url);reject(Error('图片 lỗi'))};img.src=url})}
 async function saveProduct(){let name=$('pName').value.trim(),code=$('pCode').value.trim();if(!name||!code){alert('请填写款式名称和编号');return}let old=products.find(p=>p.id===$('editId').value),uploaded=[];try{uploaded=await Promise.all([...$('pImages').files].slice(0,5).map(imageData))}catch{alert('无法读取图片');return}let p={id:old?.id||'p'+Date.now(),name,code,category:$('pCategory').value,gold:$('pGold').value.trim(),desc:$('pDesc').value.trim(),status:$('pStatus').value,visible:$('pVisible').checked,images:uploaded.length?uploaded:(old?.images||[])};let prev=products;products=old?products.map(x=>x.id===old.id?p:x):[p,...products];if(!put(P,products)){products=prev;return}resetForm();render();renderAdmin();alert('款式已保存到当前浏览器。')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'))});$('year').textContent=new Date().getFullYear();applySettings();render();
-// ==================== 🌐 中英文双语切换扩展逻辑 ====================
-
-// 读取本地保存的语言设置，默认中文 'zh'
 let currentLang = localStorage.getItem('site_lang') || 'zh';
-
-// 1. 切换语言点击事件
 function toggleLanguage() {
     currentLang = currentLang === 'zh' ? 'en' : 'zh';
     localStorage.setItem('site_lang', currentLang);
     applyLanguage();
-    render(); // 重新渲染商品列表以适配文字
-}
-
-// 2. 刷新界面上的静态文字
+    render();
 function applyLanguage() {
-    const lang = CONFIG.i18n[currentLang];
-    
-    // 更新切换按钮文字
+    const lang = CONFIG.i18n[currentLang];   
     if ($('langToggleBtn')) $('langToggleBtn').textContent = lang.langBtn;
-    
-    // 更新搜索框 placeholder 提示
     if ($('search')) $('search').placeholder = lang.searchPlaceholder;
-    
-    // 更新分类下拉菜单的第一个选项（全部分类）
     if ($('filter') && $('filter').options[0]) {
         $('filter').options[0].text = lang.filterAll;
     }
 }
-
-// 3. 在页面加载完成后自动应用当前语言，并显示/隐藏管理后台按钮
-document.addEventListener('DOMContentLoaded', () => {
-    applyLanguage();
-});
-
-// 4. 优化管理员登录成功函数：登录成功后自动显示“管理后台”按钮
-// （如果你原本的 adminLogin 没加显示按钮的逻辑，可以用下面这个完整的覆盖原函数）
-function adminLogin() {
+  document.addEventListener('DOMContentLoaded', () => {
+    applyLanguage();});
+    function adminLogin() {
     if ($('adminPass').value !== CONFIG.adminDemoPassword) {
         alert('管理员密码错误');
         return;
     }
     admin = true;
     showAdmin();
-    // 登录成功后，让导航栏的管理后台按钮显形
-    if ($('adminNavBtn')) $('adminNavBtn').classList.remove('hidden');
+     if ($('adminNavBtn')) $('adminNavBtn').classList.remove('hidden');
 }
