@@ -2,6 +2,9 @@
 'use strict';
 const $ = id => document.getElementById(id);
 
+// 安全转义函数（解决 esc 报错的关键）
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
 // 初始化 Supabase 客户端
 const supabaseClient = (window.supabase && CONFIG.supabaseUrl && CONFIG.supabaseKey) 
     ? window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey) 
@@ -12,7 +15,7 @@ let settings = { name: CONFIG.shopName, whatsapp: CONFIG.whatsapp };
 let admin = false;
 let currentProductId = null;
 
-const icons = { '黄金戒指': '💍', '黄金项链': '📿', '黄金手链': '✨', '黄金耳环': '💎', '黄金颈圈': '🌟', '黄金吊坠': '👑' };
+const icons = { '黄金戒指': '💍', '黄金项链': '📿', '黄金手链': '✨', '黄金耳环': '💎', '黄金颈圈': '🌟', '珠宝套装': '👑' };
 function modal(id) { $(id).classList.add('open'); }
 function closeModal(id) { $(id).classList.remove('open'); }
 function phone() { return /^[1-9][0-9]{7,14}$/.test(settings.whatsapp || '') ? settings.whatsapp : null; }
@@ -103,7 +106,6 @@ async function saveSettings() {
     if (raw && !/^[1-9][0-9]{7,14}$/.test(raw)) { alert('WhatsApp 号码格式不正确'); return; }
     settings = { name: $('shopName').value.trim() || '金玉珠宝', whatsapp: raw };
     
-    // 保存到 Supabase 云端
     let { error } = await supabaseClient.from('settings').upsert({ key: 'shop_settings', value: settings });
     if (error) { alert('保存失败：' + error.message); return; }
     
@@ -180,7 +182,6 @@ async function saveProduct() {
         images: uploaded.length ? uploaded : (old?.images || [])
     };
 
-    // 同步写入 Supabase 云端数据库
     let { error } = await supabaseClient.from('products').upsert(p);
     if (error) { alert('保存到云端失败：' + error.message); return; }
 
@@ -210,7 +211,7 @@ function applyLanguage() {
 
 document.addEventListener('DOMContentLoaded', () => {
     applyLanguage();
-    loadDataFromCloud(); // 页面加载时从云端读取数据
+    loadDataFromCloud();
 });
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open')); });
