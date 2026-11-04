@@ -8,7 +8,7 @@ const put=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catc
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const samples=[{id:'s1',name:'花纹黄金戒指',code:'NV001',category:'黄金戒指',gold:'18K 金',desc:'精致优雅的设计。',status:'有现货',visible:true,images:[]},{id:'s2',name:'黄金项链',code:'DC002',category:'黄金项链',gold:'18K 金',desc:'精美细致的链条。',status:'有现货',visible:true,images:[]},{id:'s3',name:'黄金手链',code:'LT003',category:'黄金手链',gold:'24K 金',desc:'尽显典雅气质。',status:'有现货',visible:true,images:[]},{id:'s4',name:'黄金耳环',code:'BT004',category:'黄金耳环',gold:'18K 金',desc:'适合多种场合。',status:'有现货',visible:true,images:[]}];
 let products=get(P,samples).map(p=>({...p,category:({'Nhẫn vàng':'黄金戒指','Dây chuyền':'黄金项链','Lắc tay':'黄金手链','Bông tai':'黄金耳环','Kiềng vàng':'黄金颈圈','Bộ trang sức':'珠宝套装','Khác':'其他'})[p.category]||p.category,status:({'Còn mẫu':'有现货','Liên hệ kiểm tra':'请咨询库存','Hết mẫu':'暂时缺货'})[p.status]||p.status})),settings=get(S,{name:CONFIG.shopName,whatsapp:CONFIG.whatsapp}),admin=false,currentProductId=null;
-const icons={'黄金戒指':'💍','黄金项链':'📿','黄金手链':'✨','黄金耳环':'💎','黄金颈圈':'🌟','珠宝套装':'👑'};
+const icons={'黄金戒指':'💍','黄金项链':'📿','黄金手链':'✨','黄金耳环':'💎','黄金颈圈':'🌟','黄金吊坠':'👑'};
 function modal(id){$(id).classList.add('open')}
 
 function closeModal(id){$(id).classList.remove('open')}
