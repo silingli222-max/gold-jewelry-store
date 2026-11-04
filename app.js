@@ -30,28 +30,3 @@ function deleteProduct(id){if(!confirm('确定删除此款式吗？'))return;let
 function imageData(file){return new Promise((resolve,reject)=>{let img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let c=document.createElement('canvas'),s=Math.min(1,900/Math.max(img.width,img.height));c.width=Math.max(1,Math.round(img.width*s));c.height=Math.max(1,Math.round(img.height*s));c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);resolve(c.toDataURL('image/jpeg',.7))};img.onerror=()=>{URL.revokeObjectURL(url);reject(Error('图片 lỗi'))};img.src=url})}
 async function saveProduct(){let name=$('pName').value.trim(),code=$('pCode').value.trim();if(!name||!code){alert('请填写款式名称和编号');return}let old=products.find(p=>p.id===$('editId').value),uploaded=[];try{uploaded=await Promise.all([...$('pImages').files].slice(0,5).map(imageData))}catch{alert('无法读取图片');return}let p={id:old?.id||'p'+Date.now(),name,code,category:$('pCategory').value,gold:$('pGold').value.trim(),desc:$('pDesc').value.trim(),status:$('pStatus').value,visible:$('pVisible').checked,images:uploaded.length?uploaded:(old?.images||[])};let prev=products;products=old?products.map(x=>x.id===old.id?p:x):[p,...products];if(!put(P,products)){products=prev;return}resetForm();render();renderAdmin();alert('款式已保存到当前浏览器。')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'))});$('year').textContent=new Date().getFullYear();applySettings();render();
-let currentLang = localStorage.getItem('site_lang') || 'zh';
-function toggleLanguage() {
-    currentLang = currentLang === 'zh' ? 'en' : 'zh';
-    localStorage.setItem('site_lang', currentLang);
-    applyLanguage();
-    render();
-function applyLanguage() {
-    const lang = CONFIG.i18n[currentLang];   
-    if ($('langToggleBtn')) $('langToggleBtn').textContent = lang.langBtn;
-    if ($('search')) $('search').placeholder = lang.searchPlaceholder;
-    if ($('filter') && $('filter').options[0]) {
-        $('filter').options[0].text = lang.filterAll;
-    }
-}
-  document.addEventListener('DOMContentLoaded', () => {
-    applyLanguage();});
-    function adminLogin() {
-    if ($('adminPass').value !== CONFIG.adminDemoPassword) {
-        alert('管理员密码错误');
-        return;
-    }
-    admin = true;
-    showAdmin();
-     if ($('adminNavBtn')) $('adminNavBtn').classList.remove('hidden');
-}
